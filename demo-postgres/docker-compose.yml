@@ -1,7 +1,7 @@
 services:
 
   db:
-    build: ./db
+    build: ./docker/db
     image: postgres
     container_name: db-con
     ports:
@@ -12,7 +12,7 @@ services:
       - POSTGRES_DB=demodb
 
   adminer:
-    build: ./adminer
+    build: ./docker/adminer
     image: adminer
     container_name: adminer-con
     depends_on:
