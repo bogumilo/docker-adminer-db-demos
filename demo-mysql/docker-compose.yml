@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+
+  db:
+    build: ./docker/db
+    image: mysql
+    container_name: db-con
+    ports:
+      - 3306:3306
+    command: --init-file /data/application/init.sql
+    volumes:
+        - ./init.sql:/data/application/init.sql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password_root
+      - MYSQL_DATABASE=demodb
+      - MYSQL_PASSWORD=password
+      - MYSQL_USER=demouser
+    extra_hosts:
+      - "docker.for.mac.host.internal:host-gateway" # Use when when running docker on macOS
+    # - "host.docker.internal:host-gateway"         # Use this line instead when run on Linux
+
+  adminer:
+    build: ./docker/adminer
+    image: adminer
+    container_name: adminer-con
+    depends_on:
+      - db
+    ports:
+      - 8080:8080
